@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Node projects: express services, clients, libraries.",
+  "extends": ["github>THM-Graphs/renovate-config"],
+  "ignorePaths": ["**/node_modules/**"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 0-6 1 * *"]
+  },
+  "packageRules": [
+    {
+      "description": "State the npm release age explicitly so a preset change cannot alter it",
+      "matchDatasources": ["npm"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Mark peer dependency updates as fixes: they change the supported consumer range",
+      "matchDepTypes": ["peerDependencies"],
+      "semanticCommitType": "fix"
+    },
+    {
+      "description": "TypeScript does not follow semver: a minor may break the build exactly like a major, so it is ungrouped and raised on the major schedule",
+      "matchPackageNames": ["typescript"],
+      "matchUpdateTypes": ["minor", "major"],
+      "groupName": null,
+      "schedule": ["* 2-7 1 * *"],
+      "addLabels": ["major"]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Shared base: when updates appear and which of them merge themselves. Project type presets extend this.",
+  "extends": ["config:best-practices", "security:openssf-scorecard"],
+
+  "timezone": "Europe/Berlin",
+  "labels": ["dependencies"],
+  "separateMinorPatch": true,
+  "minimumReleaseAge": "3 days",
+  "schedule": ["* 1-4 * * 1"],
+  "platformAutomerge": false,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "addLabels": ["security"]
+  },
+
+  "packageRules": [
+    {
+      "description": "Patches, pins and digests merge themselves on weekday mornings",
+      "matchUpdateTypes": ["patch", "pin", "pinDigest", "digest"],
+      "automerge": true,
+      "automergeType": "branch",
+      "schedule": ["* 2-7 * * 1-5"],
+      "automergeSchedule": ["* 2-8 * * 1-5"]
+    },
+    {
+      "description": "Minors are a pull request on Monday mornings",
+      "matchUpdateTypes": ["minor"],
+      "automerge": false,
+      "schedule": ["* 2-7 * * 1"]
+    },
+    {
+      "description": "Majors are a pull request on the first of the month",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "schedule": ["* 2-7 1 * *"],
+      "addLabels": ["major"]
+    },
+    {
+      "description": "Group action updates on one schedule so mixed update types share a branch",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions",
+      "schedule": ["* 2-7 * * 1"],
+      "automergeSchedule": ["* 2-7 * * 1"]
+    }
+  ]
+}

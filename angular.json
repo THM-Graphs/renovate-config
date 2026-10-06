@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Angular projects.",
+  "extends": ["github>THM-Graphs/renovate-config:npm"],
+  "packageRules": [
+    {
+      "description": "Group @angular/aria with the Angular monorepo, Renovate does not list it yet",
+      "matchPackageNames": ["@angular/aria"],
+      "groupName": "angular monorepo"
+    }
+  ]
+}

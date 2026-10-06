@@ -1,0 +1,45 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Compose repos for the fleet. A version fragment is any compose file whose name ends in dev.yml or prod.yml, wherever it lives in the repo. CI deploys a merge to that tier's hosts.",
+  "extends": ["github>THM-Graphs/renovate-config", "docker:enableMajor"],
+  "minimumReleaseAge": "7 days",
+  "automergeType": "branch",
+  "docker-compose": {
+    "managerFilePatterns": ["/(^|/)[^/]*(dev|prod)\\.ya?ml$/"]
+  },
+  "packageRules": [
+    {
+      "description": "dev tier soaks for three days, prod keeps the seven above",
+      "matchFileNames": ["**/*dev.yml", "**/*dev.yaml"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "dev tier also merges minors itself, so dev runs a release before prod is asked",
+      "matchFileNames": ["**/*dev.yml", "**/*dev.yaml"],
+      "matchUpdateTypes": ["minor"],
+      "automerge": true
+    },
+    {
+      "description": "prod updates get their own branch, so a held prod minor cannot block the dev automerge of the same release",
+      "matchFileNames": ["**/*prod.yml", "**/*prod.yaml"],
+      "additionalBranchPrefix": "prod-"
+    },
+    {
+      "description": "A 0.x minor may break under semver, so it stays a pull request even on dev",
+      "matchCurrentVersion": "/^0\\./",
+      "matchUpdateTypes": ["minor"],
+      "automerge": false
+    },
+    {
+      "description": "Neo4j stays on the 5.26 LTS line; the calendar releases are a migration, not an update",
+      "matchPackageNames": ["neo4j"],
+      "allowedVersions": "<6"
+    },
+    {
+      "description": "Neo4j is stateful and a rollback cannot undo a store upgrade: prod is never automerged, dev is the canary",
+      "matchPackageNames": ["neo4j"],
+      "matchFileNames": ["**/*prod.yml", "**/*prod.yaml"],
+      "automerge": false
+    }
+  ]
+}
