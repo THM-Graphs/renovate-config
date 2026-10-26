@@ -3,6 +3,7 @@
   "description": "Node projects: express services, clients, libraries.",
   "extends": ["github>THM-Graphs/renovate-config"],
   "ignorePaths": ["**/node_modules/**"],
+  "npmrc": "allow-remote=all",
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["* 0-6 1 * *"]
