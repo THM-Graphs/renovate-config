@@ -9,6 +9,7 @@
   "ignorePresets": [":pinDevDependencies"],
   "timezone": "Europe/Berlin",
   "labels": ["dependencies"],
+  "branchPrefix": "deps/",
   "separateMinorPatch": true,
   "minimumReleaseAge": "3 days",
   "schedule": ["* 1-4 * * 1"],
