@@ -48,6 +48,14 @@
       "groupName": "github actions",
       "schedule": ["* 2-7 * * 1"],
       "automergeSchedule": ["* 2-7 * * 1"]
+    },
+    {
+      "description": "RAMEN-Suite/ramen-workflows is ours (immutable releases with provenance): no cooldown, no weekly slot, outside the action group",
+      "matchPackageNames": ["RAMEN-Suite/ramen-workflows"],
+      "minimumReleaseAge": null,
+      "groupName": null,
+      "schedule": ["at any time"],
+      "automergeSchedule": ["at any time"]
     }
   ]
 }
