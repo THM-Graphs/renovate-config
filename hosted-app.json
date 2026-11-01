@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Hosted apps with a dev and a main branch, shipped as container images: routine updates on dev, only security fixes on main.",
+  "extends": [
+    "github>THM-Graphs/renovate-config:npm",
+    "customManagers:dockerfileVersions"
+  ],
+  "baseBranchPatterns": ["dev", "main"],
+  "packageRules": [
+    {
+      "description": "main only gets security fixes: vulnerabilityAlerts forces them through this rule, as pull requests",
+      "matchBaseBranches": ["main"],
+      "enabled": false,
+      "automerge": false
+    },
+    {
+      "description": "Node in .nvmrc and in the Dockerfile base images moves as one update. Schedule and automerge follow the update type (patch, minor, major) as in the shared preset.",
+      "matchDatasources": ["docker", "node-version"],
+      "matchPackageNames": ["node"],
+      "groupName": "node"
+    },
+    {
+      "description": "New digests of the node image (same tag, e.g. an Alpine fix) on their own branch, so a waiting minor or major pull request does not hold them back.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["digest", "pinDigest"],
+      "groupName": "node image digests"
+    }
+  ]
+}
