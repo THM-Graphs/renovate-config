@@ -1,10 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Hosted apps with a dev and a main branch, shipped as container images: routine updates on dev, only security fixes on main.",
-  "extends": [
-    "github>THM-Graphs/renovate-config:npm",
-    "customManagers:dockerfileVersions"
-  ],
+  "extends": ["github>THM-Graphs/renovate-config:npm"],
   "baseBranchPatterns": ["dev", "main"],
   "packageRules": [
     {
@@ -20,11 +17,21 @@
       "groupName": "node"
     },
     {
-      "description": "New digests of the node image (same tag, e.g. an Alpine fix) on their own branch, so a waiting minor or major pull request does not hold them back.",
+      "description": "Packages pinned in `apk add` (found by the dockerfile manager) are looked up in Alpine latest-stable, the release node:…-alpine and alpine:3 follow; the index carries build dates for the cooldown. One branch for all update types: when a new Alpine release becomes latest-stable, the pins and the image digests that move to it land together.",
+      "matchDatasources": ["apk"],
+      "registryUrls": [
+        "https://dl-cdn.alpinelinux.org/alpine?branch=latest-stable&components=main,community&arch=x86_64"
+      ],
+      "groupName": "alpine",
+      "separateMajorMinor": false,
+      "separateMinorPatch": false
+    },
+    {
+      "description": "New digests of the node and alpine images (same tag, e.g. a new Alpine release) join the alpine branch, and a waiting node minor or major pull request does not hold them back.",
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["node"],
+      "matchPackageNames": ["node", "alpine"],
       "matchUpdateTypes": ["digest", "pinDigest"],
-      "groupName": "node image digests"
+      "groupName": "alpine"
     }
   ]
 }
