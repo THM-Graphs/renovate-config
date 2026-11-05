@@ -3,7 +3,7 @@
   "description": "Node projects: express services, clients, libraries.",
   "extends": ["github>THM-Graphs/renovate-config"],
   "ignorePaths": ["**/node_modules/**"],
-  "npmrc": "allow-remote=all",
+  "npmrc": "allow-remote=all\nmin-release-age=3\nmin-release-age-exclude[]=@ramen-suite/*\nmin-release-age-exclude[]=@sushi-kit/*",
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["* 0-6 1 * *"]
@@ -26,6 +26,18 @@
       "groupName": null,
       "schedule": ["* 2-7 1 * *"],
       "addLabels": ["major"]
+    },
+    {
+      "description": "Lock file maintenance has no release dates for Renovate's age check (it waited forever). The cooldown comes from npm instead: min-release-age=3 in npmrc above, also for every transitive package.",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Our own packages (immutable releases with provenance): no cooldown, any time. Patches merge themselves, minors and majors are pull requests. npm's cooldown exempts them via min-release-age-exclude above.",
+      "matchPackageNames": ["@ramen-suite/**", "@sushi-kit/**"],
+      "minimumReleaseAge": null,
+      "schedule": ["at any time"],
+      "automergeSchedule": ["at any time"]
     }
   ]
 }

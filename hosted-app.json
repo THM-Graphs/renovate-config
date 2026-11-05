@@ -34,10 +34,10 @@
       "groupName": "alpine"
     },
     {
-      "description": "dev: every non-major update in one branch on Monday mornings that merges itself after CI, so routine updates deploy dev once a week. Majors, TypeScript, security fixes and lock file maintenance stay separate; ramen-workflows keeps its own immediate slot.",
+      "description": "dev: every non-major update in one branch on Monday mornings that merges itself after CI, so routine updates deploy dev once a week. Majors, TypeScript, security fixes and lock file maintenance stay separate; ramen-workflows and our own npm packages keep their immediate slot.",
       "matchBaseBranches": ["dev"],
       "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
-      "matchPackageNames": ["!typescript", "!RAMEN-Suite/ramen-workflows"],
+      "matchPackageNames": ["!typescript", "!RAMEN-Suite/ramen-workflows", "!@ramen-suite/**", "!@sushi-kit/**"],
       "groupName": "dependencies",
       "schedule": ["* 2-7 * * 1"],
       "automerge": true,
