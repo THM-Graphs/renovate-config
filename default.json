@@ -10,6 +10,7 @@
   "timezone": "Europe/Berlin",
   "labels": ["dependencies"],
   "branchPrefix": "deps/",
+  "npmrc": "allow-remote=all\nmin-release-age=3\nmin-release-age-exclude[]=@ramen-suite/*\nmin-release-age-exclude[]=@sushi-kit/*",
   "separateMinorPatch": true,
   "minimumReleaseAge": "3 days",
   "schedule": ["* 1-4 * * 1"],
@@ -57,6 +58,11 @@
       "groupName": null,
       "schedule": ["at any time"],
       "automergeSchedule": ["at any time"]
+    },
+    {
+      "description": "Lock file maintenance (weekly from config:best-practices, monthly in npm) has no release dates for Renovate's age check, so it waited forever. The cooldown comes from npm itself: min-release-age=3 in npmrc above, for every transitive package too.",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "minimumReleaseAge": null
     }
   ]
 }
