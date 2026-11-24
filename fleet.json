@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Compose repos for the fleet. A version fragment is any compose file whose name ends in dev.yml or prod.yml, wherever it lives in the repo. CI deploys a merge to that tier's hosts.",
   "extends": ["github>THM-Graphs/renovate-config", "docker:enableMajor"],
-  "minimumReleaseAge": "7 days",
+  "minimumReleaseAge": "3 days",
   "automergeType": "branch",
   "docker-compose": {
     "managerFilePatterns": ["/(^|/)[^/]*(dev|prod)\\.ya?ml$/"]
